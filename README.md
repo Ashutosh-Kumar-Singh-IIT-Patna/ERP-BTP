@@ -1,5 +1,5 @@
 # ERP-BTP
-This is the BTP project under Prof. Mayank Agarwal
+This is the BTP project under Dr. Mayank Agarwal
 
 The major goals of this project would be to include:
 
