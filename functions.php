@@ -18,7 +18,7 @@ function execute_query($sql, $params = []) {
     }
 
     try {
-        $stmt->execute();
+        $success = $stmt->execute();
         $result = $stmt->get_result();
 
         // Log query in the database
@@ -32,7 +32,7 @@ function execute_query($sql, $params = []) {
         // Log query in file
         error_log("Executed Query: $sql\nTraceback: $trace_str", 3, LOG_FILE_PATH);
 
-        return true;
+        return ['success' => $success, 'result' => $result];
 
     } catch (Exception $e) {
         error_log("Exception: " . $e->getMessage(), 3, LOG_FILE_PATH);
@@ -47,7 +47,8 @@ function sanitize_input($data) {
 function get_dropdown_options($table) {
     global $conn;
     $sql = "SELECT id, " . ($table === 'acad_mother_tongue' ? 'language' : 'profession') . " AS value FROM $table";
-    $result = execute_query($sql);
+    $query_result = execute_query($sql);
+    $result = $query_result['result'];
     $options = [];
     if ($result) {
         while ($row = $result->fetch_assoc()) {

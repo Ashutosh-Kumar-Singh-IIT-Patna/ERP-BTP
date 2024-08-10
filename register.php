@@ -61,8 +61,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $father_profession_id, $mother_profession_id, $annual_income
     ];
 
+    $query_result = execute_query($sql, $params);
 
-    if (execute_query($sql, $params)) {
+    if ($query_result['success']) {
         echo "Registration successful!";
     } else {
         echo "Registration failed. Please try again.";
