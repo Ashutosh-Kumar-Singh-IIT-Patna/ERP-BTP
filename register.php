@@ -47,39 +47,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $row = $check_result['result']->fetch_assoc();
         if ($row['count'] > 0) {
             echo "Roll number already exists. Please use a different roll number.";
+            return;
         }
+    }
+    // Proceed with insertion
+    $sql = "INSERT INTO acad_users (
+                roll_number, full_name, preferred_name, dob, gender, 
+                mother_tongue_id, religion, nationality, state, blood_group, 
+                category, country_code, mobile_no, whatsapp_no, course, 
+                department, branch, specialization, hostel_name, hostel_block, 
+                hostel_room_no, webmail, alt_mail, date_of_admission, 
+                father_name, mother_name, father_phone, mother_phone, 
+                father_profession_id, mother_profession_id, annual_income
+            ) VALUES (
+                ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+            )";
+
+    $params = [
+        'sssssissssssssssssssssssssssiis', 
+        $roll_number, $full_name, $preferred_name, $dob, $gender, 
+        $mother_tongue_id, $religion, $nationality, $state, $blood_group, 
+        $category, $country_code, $mobile_no, $whatsapp_no, $course, 
+        $department, $branch, $specialization, $hostel_name, $hostel_block, 
+        $hostel_room_no, $webmail, $alt_mail, $date_of_admission, 
+        $father_name, $mother_name, $father_phone, $mother_phone, 
+        $father_profession_id, $mother_profession_id, $annual_income
+    ];
+
+    $query_result = execute_query($sql, $params);
+
+    if ($query_result['success']) {
+        echo "Registration successful!";
     } else {
-        // Proceed with insertion
-        $sql = "INSERT INTO acad_users (
-                    roll_number, full_name, preferred_name, dob, gender, 
-                    mother_tongue_id, religion, nationality, state, blood_group, 
-                    category, country_code, mobile_no, whatsapp_no, course, 
-                    department, branch, specialization, hostel_name, hostel_block, 
-                    hostel_room_no, webmail, alt_mail, date_of_admission, 
-                    father_name, mother_name, father_phone, mother_phone, 
-                    father_profession_id, mother_profession_id, annual_income
-                ) VALUES (
-                    ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
-                )";
-
-        $params = [
-            'sssssissssssssssssssssssssssiis', 
-            $roll_number, $full_name, $preferred_name, $dob, $gender, 
-            $mother_tongue_id, $religion, $nationality, $state, $blood_group, 
-            $category, $country_code, $mobile_no, $whatsapp_no, $course, 
-            $department, $branch, $specialization, $hostel_name, $hostel_block, 
-            $hostel_room_no, $webmail, $alt_mail, $date_of_admission, 
-            $father_name, $mother_name, $father_phone, $mother_phone, 
-            $father_profession_id, $mother_profession_id, $annual_income
-        ];
-
-        $query_result = execute_query($sql, $params);
-
-        if ($query_result['success']) {
-            echo "Registration successful!";
-        } else {
-            echo "Registration failed. Please try again.";
-        }
+        echo "Registration failed. Please try again.";
     }
 }
 ?>
