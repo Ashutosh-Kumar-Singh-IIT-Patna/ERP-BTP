@@ -43,8 +43,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $check_params = ['s', $roll_number];
     $check_result = execute_query($check_sql, $check_params);
 
-    if ($check_result['success'] && $check_result['data']['count'] > 0) {
-        echo "Roll number already exists. Please use a different roll number.";
+    if ($check_result['success']) {
+        $row = $check_result['result']->fetch_assoc();
+        if ($row['count'] > 0) {
+            echo "Roll number already exists. Please use a different roll number.";
+        }
     } else {
         // Proceed with insertion
         $sql = "INSERT INTO acad_users (
