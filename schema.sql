@@ -11,8 +11,7 @@ CREATE TABLE acad_profession (
 );
 
 CREATE TABLE acad_users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    roll_number VARCHAR(40) NOT NULL,
+    roll_number VARCHAR(40) NOT NULL PRIMARY KEY, -- Primary key
     full_name VARCHAR(40) NOT NULL,
     preferred_name VARCHAR(40),
     dob DATE NOT NULL,
@@ -54,5 +53,3 @@ CREATE TABLE acad_queries_log (
     traceback TEXT NOT NULL,
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
-
