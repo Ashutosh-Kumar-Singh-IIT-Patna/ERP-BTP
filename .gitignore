@@ -1,2 +1,5 @@
 .env
-logs/log.txt
+logs
+uploads
+commands.txt
+run_mysql_command.sql

@@ -46,7 +46,27 @@ function sanitize_input($data) {
 
 function get_dropdown_options($table) {
     global $conn;
-    $sql = "SELECT id, " . ($table === 'acad_mother_tongue' ? 'language' : 'profession') . " AS value FROM $table";
+    $tableColumns = [
+        'acad_mother_tongue' => 'language',
+        'acad_profession' => 'profession',
+        'acad_religion' => 'religion',
+        'acad_state' => 'state',
+        'acad_blood_group' => 'blood_group',
+        'acad_country_code' => 'country_code',
+        'acad_department' => 'department',
+        'acad_branch' => 'branch',
+        'acad_specialization' => 'specialization',
+        'acad_gender' => 'gender',
+        'acad_nationality' => 'nationality',
+        'acad_category' => 'category',
+        'acad_hostel_name' => 'hostel_name',
+        'acad_hostel_block' => 'hostel_block',
+        'acad_course' => 'course'
+    ];
+
+    // Determine the column name based on the table
+    $column = $tableColumns[$table] ?? 'value';
+    $sql = "SELECT id, $column AS value FROM $table";
     $query_result = execute_query($sql);
     $result = $query_result['result'];
     $options = [];
@@ -68,4 +88,21 @@ function check_csrf_token($token) {
         die("CSRF token validation failed.");
     }
 }
+
+function export_to_csv($data) {
+    header('Content-Type: text/csv');
+    header('Content-Disposition: attachment; filename="results.csv"');
+
+    $output = fopen('php://output', 'w');
+
+    fputcsv($output, ['Roll Number', 'Name', 'Webmail', 'Phone Number', 'Whatsapp Number']);
+
+    foreach ($data as $row) {
+        fputcsv($output, $row);
+    }
+
+    fclose($output);
+    exit();
+}
+
 ?>
