@@ -12,6 +12,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($search_term)) {
     } elseif ($search_by === 'name') {
         $sql = "SELECT roll_number, full_name, webmail, mobile_no, whatsapp_no FROM acad_users WHERE full_name LIKE ?";
         $params = ['s', '%' . $search_term . '%'];
+    } elseif ($search_by === 'course') {
+        $sql = "SELECT roll_number, full_name, webmail, mobile_no, whatsapp_no FROM acad_users WHERE course = ?";
+        $params = ['s', $search_term];
+    } elseif ($search_by === 'year_of_admission') {
+        $sql = "SELECT roll_number, full_name, webmail, mobile_no, whatsapp_no FROM acad_users WHERE YEAR(date_of_admission) = ?";
+        $params = ['i', $search_term];
     }
 
     $query_result = execute_query($sql, $params);
@@ -33,7 +39,6 @@ if (isset($_GET['export']) && $_GET['export'] == 'csv') {
     export_to_csv($students);
     exit();
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -64,6 +69,8 @@ if (isset($_GET['export']) && $_GET['export'] == 'csv') {
                     <select name="search_by" id="search_by" class="form-select" required>
                         <option value="roll_number">Roll Number</option>
                         <option value="name">Name</option>
+                        <option value="course">Course</option>
+                        <option value="year_of_admission">Year of Admission</option>
                     </select>
                     <input type="text" name="search_term" id="search_term" class="form-control" placeholder="Enter search term" required>
                     <button type="submit" class="btn btn-primary">Search</button>
